@@ -65,7 +65,9 @@ distance x1 y1 x2 y2 = sqrt(((x2) - (x1))^2 + ((y2) - (y1))^2)
 -- Ps. have a look at the built in function "even"
 
 eeny :: Integer -> String
-eeny = todo
+eeny x = if even x
+         then "eeny"
+         else "meeny"
 
 ------------------------------------------------------------------------------
 -- Ex 6: here's the function checkPassword from the course material.
@@ -89,7 +91,11 @@ checkPassword password = if password == "swordfish"
 -- in grams, and returns the cost in credits.
 
 postagePrice :: Int -> Int
-postagePrice = todo
+postagePrice x = if x <= 500
+                 then 250
+                 else if x > 500 && x <= 5000
+                 then 300 + x
+                 else 6000
 
 ------------------------------------------------------------------------------
 -- Ex 8: define a function isZero that returns True if it is given an
