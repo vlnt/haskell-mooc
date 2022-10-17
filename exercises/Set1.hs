@@ -105,7 +105,10 @@ postagePrice x = if x <= 500
 --
 -- Ps. remember, the type of booleans in haskell is Bool
 
-isZero = todo
+isZero :: Integer -> Bool
+
+isZero 0 = True
+isZero _ = False 
 
 ------------------------------------------------------------------------------
 -- Ex 9: implement using recursion a function sumTo such that
@@ -113,14 +116,16 @@ isZero = todo
 -- computes the sum 1+2+...+n
 
 sumTo :: Integer -> Integer
-sumTo = todo
+sumTo 1 = 1
+sumTo n = n + sumTo (n - 1) 
 
 ------------------------------------------------------------------------------
 -- Ex 10: power n k should compute n to the power k (i.e. n^k)
 -- Use recursion.
 
 power :: Integer -> Integer -> Integer
-power = todo
+power n 1 = n
+power n k = n * power n (k-1) 
 
 ------------------------------------------------------------------------------
 -- Ex 11: ilog3 n should be the number of times you can divide given
@@ -139,4 +144,18 @@ power = todo
 --   ilog3 7 ==> 2
 
 ilog3 :: Integer -> Integer
-ilog3 = todo
+reminder   :: Integer -> Integer
+counter :: Integer -> Integer -> Integer
+reminder n = div n 3
+counter n c =
+          c + 1 
+
+          if reminder n == 0 
+            then c + 1
+          else
+            let r = reminder n
+            in counter (r)
+        
+ilog3 1 = 1
+ilog3 2 = 1
+ilog3 n =  counter (reminder n) 1
