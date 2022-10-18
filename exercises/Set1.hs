@@ -144,18 +144,13 @@ power n k = n * power n (k-1)
 --   ilog3 7 ==> 2
 
 ilog3 :: Integer -> Integer
-reminder   :: Integer -> Integer
-counter :: Integer -> Integer -> Integer
-reminder n = div n 3
-counter n c =
-          c + 1 
+--reminder :: Integer -> Integer
 
-          if reminder n == 0 
-            then c + 1
-          else
-            let r = reminder n
-            in counter (r)
-        
+-- reminder n =
+--     if (div n 3) > 0 
+--         then 1
+--     else 1
+
 ilog3 1 = 1
 ilog3 2 = 1
-ilog3 n =  counter (reminder n) 1
+ilog3 n = 1 + ilog3 (div n 3)
