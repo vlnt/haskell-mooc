@@ -153,9 +153,9 @@ powers k max =
 
 while :: (a->Bool) -> (a->a) -> a -> a
 while check update value = 
-    if check value == False
-        then update value
-    else update value
+    if check value == True
+        then while check update (update value)
+    else value
 
 ------------------------------------------------------------------------------
 -- Ex 8: another version of a while loop. This time, the check
@@ -175,7 +175,9 @@ while check update value =
 -- Hint! Remember the case-of expression from lecture 2.
 
 whileRight :: (a -> Either b a) -> a -> b
-whileRight check x = todo
+whileRight check x = todo  
+--      case isLeft (check x) of True -> fromLeft x (check x)
+--                               False -> whileRight check (fromRight 1 (check x))
 
 -- for the whileRight examples:
 -- step k x doubles x if it's less than k
@@ -186,6 +188,12 @@ step k x = if x<k then Right (2*x) else Left x
 bomb :: Int -> Either String Int
 bomb 0 = Left "BOOM"
 bomb x = Right (x-1)
+
+--choose :: a -> Either a b  
+-- choose s =
+--     if s == 0
+--         then Left 0
+--     else Right "ok" 
 
 ------------------------------------------------------------------------------
 -- Ex 9: given a list of strings and a length, return all strings that
@@ -249,10 +257,12 @@ sumRights l = sum (rights l)
 --   multiCompose [(3*), (2^), (+1)] 0 ==> 6
 --   multiCompose [(+1), (2^), (3*)] 0 ==> 2
 
-multiCompose fs = todo
+multiCompose [] x     = x 
+multiCompose (f:[]) x = f x 
+multiCompose (f:fs) x = f (multiCompose fs x) 
 
 ------------------------------------------------------------------------------
--- Ex 13: let's consider another way to compose multiple functions. Given
+-- Ex 13: let's consider Either a banother way to compose multiple functions. Given
 -- some function f, a list of functions gs, and some value x, define
 -- a composition operation that applies each function g in gs to x and then
 -- f to the resulting list. Give also the type annotation for multiApp.

@@ -35,7 +35,18 @@ import Data.Array
 -- you remove the Eq a => constraint from the type!
 
 allEqual :: Eq a => [a] -> Bool
-allEqual xs = todo
+allEqual [] = True
+allEqual (x:[]) = True 
+allEqual xs 
+    | take 1 xs == take 1 (drop 1 xs)  = allEqual  (drop 1 xs) 
+    | otherwise                        = (head $ tail xs) == head xs
+
+-------------------------------------------------------------------------------
+
+--allEqual' (x:xs) = do
+--    if (foldr (/) x (x:xs) == 1 ||  foldr (/) x (x:xs) == x)
+--        then True
+--    else False 
 
 ------------------------------------------------------------------------------
 -- Ex 2: implement the function distinct which returns True if all
@@ -50,7 +61,12 @@ allEqual xs = todo
 --   distinct [1,2] ==> True
 
 distinct :: Eq a => [a] -> Bool
-distinct = todo
+distinct [] = True
+distinct (x:[]) = True
+distinct (x:xs) = do
+    if elem x xs
+        then False
+    else distinct xs
 
 ------------------------------------------------------------------------------
 -- Ex 3: implement the function middle that returns the middle value
@@ -78,8 +94,8 @@ middle = todo
 --   rangeOf [4,2,1,3]          ==> 3
 --   rangeOf [1.5,1.0,1.1,1.2]  ==> 0.5
 
-rangeOf :: [a] -> a
-rangeOf = todo
+rangeOf :: Num a => Ord a => [a] -> a
+rangeOf xs = maximum xs - minimum xs
 
 ------------------------------------------------------------------------------
 -- Ex 5: given a (non-empty) list of (non-empty) lists, return the longest
@@ -113,8 +129,13 @@ longest = todo
 --   incrementKey True [(True,1),(False,3),(True,4)] ==> [(True,2),(False,3),(True,5)]
 --   incrementKey 'a' [('a',3.4)] ==> [('a',4.4)]
 
-incrementKey :: k -> [(k,v)] -> [(k,v)]
-incrementKey = todo
+incrementKey :: Eq k => Num v => k -> [(k,v)] -> [(k,v)]
+incrementKey key [] = []
+incrementKey key (x:xs) =
+        if fst x == key
+            then (key, (snd x + 1)):incrementKey key xs
+        else x:incrementKey key xs
+
 
 ------------------------------------------------------------------------------
 -- Ex 7: compute the average of a list of values of the Fractional
@@ -129,7 +150,9 @@ incrementKey = todo
 -- length to a Fractional
 
 average :: Fractional a => [a] -> a
-average xs = todo
+average xs = do
+    sum xs / x
+      where x = fromIntegral (length xs) 
 
 ------------------------------------------------------------------------------
 -- Ex 8: given a map from player name to score and two players, return

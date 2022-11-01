@@ -56,10 +56,21 @@ next n = do
     else n
 
 sums :: Int -> [Int]
-sums i = 
-        if i > 0
-            then (next i - 1):sums(i - 1)
-        else (next i):[]
+sums i = h i 1
+h i c = 
+    if c < i
+        then (next c):h (i) (c + 1)
+    else (next c):[]
+
+
+-- in reverse order
+
+-- sums :: Int -> [Int]
+-- sums i = 
+--     let c = 1 in
+--         if i < 1
+--             then (next c):[]
+--         else (next i):sums(i - 1)
 
 ------------------------------------------------------------------------------
 -- Ex 3: define a function mylast that returns the last value of the
@@ -73,7 +84,10 @@ sums i =
 --   mylast 0 [1,2,3] ==> 3
 
 mylast :: a -> [a] -> a
-mylast def xs = todo
+mylast def [] = def
+mylast def [x] = x
+mylast def (_:xs) = mylast def xs
+
 
 ------------------------------------------------------------------------------
 -- Ex 4: safe list indexing. Define a function indexDefault so that
@@ -91,7 +105,11 @@ mylast def xs = todo
 --   indexDefault ["a","b","c"] (-1) "d" ==> "d"
 
 indexDefault :: [a] -> Int -> a -> a
-indexDefault xs i def = todo
+indexDefault (x:_) 0 def = x
+indexDefault [] _ def = def
+indexDefault (_:xs) i def 
+    | i < 0     = def
+    | otherwise = indexDefault xs (i - 1) def 
 
 ------------------------------------------------------------------------------
 -- Ex 5: define a function that checks if the given list is in
@@ -107,7 +125,10 @@ indexDefault xs i def = todo
 --   sorted [7,2,7] ==> False
 
 sorted :: [Int] -> Bool
+sorted [] = True
+sorted (x:[]) = True 
 sorted xs = todo
+    
 
 ------------------------------------------------------------------------------
 -- Ex 6: compute the partial sums of the given list like this:
@@ -170,7 +191,13 @@ mymaximum bigger initial xs = todo
 -- Use recursion and pattern matching. Do not use any library functions.
 
 map2 :: (a -> b -> c) -> [a] -> [b] -> [c]
-map2 f as bs = todo
+map2 f [] [] = []
+map2 f as [] = []
+map2 f [] bs = []
+map2 f (a:[]) (b:[]) = [f a b]
+map2 f (a:as) (b:bs) = 
+    (f a b):(map2 f as bs)
+
 
 ------------------------------------------------------------------------------
 -- Ex 10: implement the function maybeMap, which works a bit like a
