@@ -78,8 +78,10 @@ distinct (x:xs) = do
 -- Examples:
 --   middle 'b' 'a' 'c'  ==> 'b'
 --   middle 1 7 3        ==> 3
-
-middle = todo
+middle :: Ord a => a -> a -> a -> a
+middle a b c = do
+    let xs = [a, b, c] in
+        head [ x | x <- xs, ( x < maximum xs), (x > minimum xs)]
 
 ------------------------------------------------------------------------------
 -- Ex 4: return the range of an input list, that is, the difference

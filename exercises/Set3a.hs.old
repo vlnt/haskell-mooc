@@ -32,7 +32,6 @@ maxBy measure a b =
     if measure a > measure b
         then a
     else b
-
 ------------------------------------------------------------------------------
 -- Ex 2: implement the function mapMaybe that takes a function and a
 -- Maybe value. If the value is Nothing, it returns Nothing. If it is
@@ -70,7 +69,7 @@ mapMaybe2 f (Just x) (Just y) =  Just (f x y)
 --
 -- The first half of a string should include the middle character of
 -- the string if the string has an odd length.
---
+-- 
 -- Examples:
 --   palindromeHalfs ["abba", "cat", "racecar"]
 --     ==> ["ab","race"]
@@ -86,6 +85,18 @@ palindromeHalfs xs = map firstHalf (filter palindrome xs)
 firstHalf = todo
 
 palindrome = todo
+
+-- palindromeHalfs :: [String] -> [String]
+-- palindromeHalfs xs = map firstHalf (filter palindrome xs)
+
+-- firstHalf :: String -> String
+-- firstHalf xs = 
+--     if mod (length xs) 2 == 0
+--         then take (length xs `div` 2) xs
+--     else take ((length xs `div` 2) + 1) xs
+
+-- palindrome :: [String] -> [String]
+-- palindrome x = (\x -> reverse x == x) x
 
 ------------------------------------------------------------------------------
 -- Ex 5: Implement a function capitalize that takes in a string and
@@ -107,6 +118,7 @@ capitalize s = do
      unwords (map cap  (words s))
      where cap w = toUpper (head(take 1 w)):tail w
 
+
 ------------------------------------------------------------------------------
 -- Ex 6: powers k max should return all the powers of k that are less
 -- than or equal to max. For example:
@@ -122,10 +134,10 @@ capitalize s = do
 --   * the function takeWhile
 
 powers :: Int -> Int -> [Int]
+
 powers k max = 
    let ar = map (k^) (take max (iterate (+1) 0))
    in  takeWhile (<= max) ar
-
 ------------------------------------------------------------------------------
 -- Ex 7: implement a functional while loop. While should be a function
 -- that takes a checking function, an updating function, and an
@@ -158,7 +170,7 @@ while check update value =
 -- value means keep looping.
 --
 -- The call `whileRight check x` should call `check x`, and if the
--- result is a Left, return the contents of the Left. If the result is
+-- result is a Left, return the contents of the Left. If the result  is
 -- a Right, the function should call `check` on the contents of the
 -- Right and so on.
 --
@@ -169,13 +181,9 @@ while check update value =
 --
 -- Hint! Remember the case-of expression from lecture 2.
 
---whileRight :: (a -> Either b a) -> a -> b
-whileRight check x =
-    if isLeft (check x)
-       then fromLeft "a" (check x)
-    else whileRight check (x - 1)
+whileRight :: (a -> Either b a) -> a -> b
+whileRight check x = todo  
 
-              
 -- for the whileRight examples:
 -- step k x doubles x if it's less than k
 step :: Int -> Int -> Either Int Int
@@ -185,6 +193,12 @@ step k x = if x<k then Right (2*x) else Left x
 bomb :: Int -> Either String Int
 bomb 0 = Left "BOOM"
 bomb x = Right (x-1)
+
+--choose :: a -> Either a b  
+-- choose s =
+--     if s == 0
+--         then Left 0
+--     else Right "ok" 
 
 ------------------------------------------------------------------------------
 -- Ex 9: given a list of strings and a length, return all strings that
@@ -197,13 +211,13 @@ bomb x = Right (x-1)
 --
 -- Hint! This is a great use for list comprehensions
 
-joinToLength :: Int -> [String] -> [String]
-joinToLength 0 ar = []
-joinToLength _ [] = []
-joinToLength l (a:ar) = 
-    if length (a ++ head ar) == l 
-        then (a ++ head ar):(head ar ++ a):[]
-    else joinToLength l ar
+-- joinToLength :: Int -> [String] -> [String]
+-- joinToLength 0 ar = []
+-- joinToLength _ [] = []
+-- joinToLength l (a:ar) = 
+--     if length (a ++ head ar) == l 
+--         then (a ++ head ar):(head ar ++ a):[]
+--     else joinToLength l ar
 
 ------------------------------------------------------------------------------
 -- Ex 10: implement the operator +|+ that returns a list with the first
@@ -216,7 +230,9 @@ joinToLength l (a:ar) =
 --   [1,2,3] +|+ [4,5,6]  ==> [1,4]
 --   [] +|+ [True]        ==> [True]
 --   [] +|+ []            ==> []
+
 (+|+) :: [Int] -> [Int] ->  [Int]
+
 xs +|+ [] = [head xs]
 [] +|+ ys = [head ys] 
 xs +|+ ys = [head xs, head ys]
@@ -237,7 +253,6 @@ xs +|+ ys = [head xs, head ys]
 
 sumRights :: [Either a Int] -> Int
 sumRights l = sum (rights l)
-
 ------------------------------------------------------------------------------
 -- Ex 12: recall the binary function composition operation
 -- (f . g) x = f (g x). In this exercise, your task is to define a function
@@ -252,13 +267,12 @@ sumRights l = sum (rights l)
 --   multiCompose [(3*), (2^), (+1)] 0 ==> 6
 --   multiCompose [(+1), (2^), (3*)] 0 ==> 2
 
---multiCompose fs = todo
 multiCompose [] x     = x 
 multiCompose (f:[]) x = f x 
 multiCompose (f:fs) x = f (multiCompose fs x) 
 
 ------------------------------------------------------------------------------
--- Ex 13: let's consider another way to compose multiple functions. Given
+-- Ex 13: let's consider Either a banother way to compose multiple functions. Given
 -- some function f, a list of functions gs, and some value x, define
 -- a composition operation that applies each function g in gs to x and then
 -- f to the resulting list. Give also the type annotation for multiApp.
@@ -310,5 +324,6 @@ multiApp = todo
 -- using (:). If you build the list in an argument to a helper
 -- function, the surprise won't work.
 
-interpreter :: [String] -> [String]
-interpreter commands = todo
+interpreter :: [String] -> Int
+interpreter = todo 
+        
